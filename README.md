@@ -13,5 +13,10 @@ A simple aviation simulation system that reads Runway Visual Range (RVR) from se
 - libmodbus
 - Linux (systemd-ready)
 
+## Current Implementation
+- Simulated real-time RVR data ingestion from sensor stream
+- Environmental adjustment logic applied to raw visibility data
+- Modbus TCP server exposing processed values via holding registers
+
 ## Status
 In development
