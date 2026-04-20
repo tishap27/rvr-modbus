@@ -18,5 +18,18 @@ A simple aviation simulation system that reads Runway Visual Range (RVR) from se
 - Environmental adjustment logic applied to raw visibility data
 - Modbus TCP server exposing processed values via holding registers
 
+## Hardware Setup (ATmega2560 to WSL)
+```bash
+# PowerShell as admin
+usbipd list
+usbipd bind --busid 1-2
+usbipd attach --wsl --busid 1-2 --force
+```
+Then in WSL:
+```bash
+sudo chmod 666 /dev/ttyACM0
+python3 modbus_server.py
+```
+
 ## Status
 In development
