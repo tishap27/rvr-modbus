@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <modbus/modbus.h>
+#include "mcp3008.h"
 
-#define LIGHT_INTENSITY 0.5f
 #define MODBUS_PORT 1502
 #define REGISTER_COUNT 10
 
@@ -24,6 +24,8 @@ float adjust_rvr(float raw, float intensity) {
 }
 
 int main() {
+    mcp3008_init();
+
     modbus_t *ctx;
     modbus_mapping_t *mapping;
     int server_socket;
@@ -63,7 +65,10 @@ int main() {
         }
 
         float raw_ft = raw * 100.0f;
-        float adjusted = adjust_rvr(raw_ft, LIGHT_INTENSITY);
+        
+        float intensity = mcp3008_read_intensity(0); // channel 0
+        float adjusted = adjust_rvr(raw_ft, intensity);
+
         int register_value = (int)adjusted;
 
         mapping->tab_registers[0] = register_value;
@@ -78,5 +83,7 @@ int main() {
     modbus_mapping_free(mapping);
     modbus_close(ctx);
     modbus_free(ctx);
+
+    mcp3008_close();
     return 0;
 }
