@@ -4,6 +4,8 @@
 #include <modbus/modbus.h>
 #include "mcp3008.h"
 
+#define MODBUS_TCP_MAX_ADU_LENGTH 260
+
 #define MODBUS_PORT 1502
 #define REGISTER_COUNT 10
 
@@ -77,7 +79,13 @@ int main() {
         printf("Adjusted RVR: %.1f ft\n", adjusted);
         printf("Modbus register 0: %d\n", register_value);
 
-        modbus_reply(ctx, (uint8_t[]){0}, 0, mapping);
+       // modbus_reply(ctx, (uint8_t[]){0}, 0, mapping);
+
+       uint8_t query[MODBUS_TCP_MAX_ADU_LENGTH];
+       int rc = modbus_receive(ctx, query);
+        if (rc > 0) {
+            modbus_reply(ctx, query, rc, mapping);
+        }
     }
 
     modbus_mapping_free(mapping);
