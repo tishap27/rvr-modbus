@@ -1,0 +1,13 @@
+[Unit]
+Description=RVR Modbus Service
+After=network.target
+
+[Service]
+ExecStart=/home/tisha/rvr-modbus/modbus_server
+WorkingDirectory=/home/tisha/rvr-modbus
+Restart=always
+RestartSec=5
+User=tisha
+
+[Install]
+WantedBy=multi-user.target
