@@ -65,6 +65,7 @@ int main() {
             printf("Invalid input\n");
             continue;
         }
+        
 
         float raw_ft = raw * 100.0f;
         
@@ -78,6 +79,14 @@ int main() {
         printf("Raw RVR: %.1f ft\n", raw_ft);
         printf("Adjusted RVR: %.1f ft\n", adjusted);
         printf("Modbus register 0: %d\n", register_value);
+
+         if (raw_ft < 1200.0f) {
+           printf("LOW VISIBILITY OPERATIONS ACTIVE\n");
+        mapping->tab_registers[1] = 1;
+        } else {
+         mapping->tab_registers[1] = 0;
+        }
+
 
        // modbus_reply(ctx, (uint8_t[]){0}, 0, mapping);
 
