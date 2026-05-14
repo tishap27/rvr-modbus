@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rvr-modbus
+  labels:
+    app: rvr-modbus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rvr-modbus
+  template:
+    metadata:
+      labels:
+        app: rvr-modbus
+    spec:
+      containers:
+      - name: rvr-modbus
+        image: rvr-modbus:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 1502
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rvr-modbus-service
+spec:
+  selector:
+    app: rvr-modbus
+  ports:
+  - protocol: TCP
+    port: 1502
+    targetPort: 1502
+    nodePort: 31502
+  type: NodePort
