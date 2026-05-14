@@ -41,6 +41,24 @@ sudo systemctl status rvr-modbus
 
 Service auto starts on boot and restarts automatically if it crashes.
 
+## Run in Docker
+
+```bash
+docker build -t rvr-modbus .
+python3 tests/sensor_simulator.py | ssh tisha@10.0.0.117 'docker run --rm -i -p 1502:1502 rvr-modbus'
+```
+
+## Deploy with K3s
+
+```bash
+kubectl apply -f k8s/rvr-modbus-deployment.yaml
+kubectl get pods
+kubectl get services
+```
+
+Service is exposed on port 31502 via NodePort.  
+**In Progress:** K3s deployment created and applied; pod fails with `ErrImageNeverPull`  Docker image needs to be imported into K3s containerd
+
 ## Running the Full System
 
 On your laptop, pipe the simulator to the Pi over SSH:
