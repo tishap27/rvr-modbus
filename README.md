@@ -56,8 +56,14 @@ kubectl get pods
 kubectl get services
 ```
 
-Service is exposed on port 31502 via NodePort.  
-**In Progress:** K3s deployment created and applied; pod fails with `ErrImageNeverPull`  Docker image needs to be imported into K3s containerd
+> **Note:** K3s uses its own containerd runtime separate from Docker. If  pod shows `ErrImageNeverPull`, import the image manually:
+> ```
+> docker save rvr-modbus | sudo k3s ctr images import -
+> ```
+> Wait ~90 seconds on a Pi 3B+, then verify with:
+> ```
+> sudo k3s ctr images list | grep rvr-modbus
+> ```
 
 ## Running the Full System
 
